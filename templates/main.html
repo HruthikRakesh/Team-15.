@@ -6,60 +6,23 @@
     <title>🍇 Grape Disease Detector</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-theme: #6a0dad;
             --secondary-theme: #4b0082;
-            --bg-light: #f8f9fa;
-            --bg-dark: #1a1a2e;
-            --card-light: #ffffff;
-            --card-dark: #16213e;
         }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .theme-purple {
-            --primary-theme: #6a0dad;
-            --secondary-theme: #4b0082;
-        }
-
-        .theme-green {
-            --primary-theme: #2e8b57;
-            --secondary-theme: #3cb371;
-        }
-
-        .theme-blue {
-            --primary-theme: #4169e1;
-            --secondary-theme: #1e90ff;
-        }
-
-        .gradient-bg {
-            background: linear-gradient(135deg, var(--primary-theme) 0%, var(--secondary-theme) 100%);
-        }
-
-        .disease-card {
-            border-left: 4px solid var(--primary-theme);
-            transition: all 0.3s ease;
-        }
-
-        .disease-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        #imagePreview {
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        body { font-family: 'Poppins', sans-serif; }
+        .theme-purple { --primary-theme: #6a0dad; --secondary-theme: #4b0082; }
+        .theme-green { --primary-theme: #2e8b57; --secondary-theme: #3cb371; }
+        .theme-blue { --primary-theme: #4169e1; --secondary-theme: #1e90ff; }
+        .gradient-bg { background: linear-gradient(135deg, var(--primary-theme) 0%, var(--secondary-theme) 100%); }
+        .disease-card { border-left: 4px solid var(--primary-theme); transition: all 0.3s ease; }
+        .disease-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #imagePreview { max-height: 300px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="bg-gray-50 theme-purple">
-    <!-- Header -->
     <header class="sticky top-0 z-10 gradient-bg text-white shadow-lg">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-4">
@@ -74,457 +37,253 @@
                 <button id="theme-green" class="theme-btn w-6 h-6 rounded-full bg-green-600"></button>
                 <button id="theme-blue" class="theme-btn w-6 h-6 rounded-full bg-blue-600"></button>
                 <button id="dark-toggle" class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
                 </button>
             </div>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <!-- Hero Section -->
         <section class="text-center mb-12">
-            <h1 id="main-title" class="text-4xl font-bold text-[--primary-theme] mb-4">Grape Disease Detector</h1>
-            <p id="subtitle" class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Upload an image of grape leaves to detect diseases and get treatment recommendations
-            </p>
+            <h1 id="main-title" class="text-4xl font-bold text-[--primary-theme] mb-4"></h1>
+            <p id="subtitle" class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"></p>
         </section>
-
-        <!-- Upload Section -->
         <section class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden p-6 mb-8">
-            <h2 id="upload-title" class="text-xl font-semibold text-[--secondary-theme] mb-4">Upload Grape Leaf Image</h2>
+            <h2 id="upload-title" class="text-xl font-semibold text-[--secondary-theme] mb-4"></h2>
             <form id="upload-form" class="space-y-4">
                 <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 bg-gray-50 dark:bg-gray-700 transition hover:border-[--primary-theme]">
                     <input type="file" id="image-upload" accept="image/*" class="hidden" required>
                     <label for="image-upload" class="cursor-pointer flex flex-col items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[--primary-theme]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span id="upload-text" class="mt-2 text-sm text-gray-500 dark:text-gray-300">Click to select an image</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[--primary-theme]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <span id="upload-text" class="mt-2 text-sm text-gray-500 dark:text-gray-300"></span>
                     </label>
                 </div>
                 <img id="imagePreview" class="hidden w-full mt-4 rounded-lg">
                 <button type="submit" id="analyze-btn" class="w-full gradient-bg hover:opacity-90 text-white font-medium rounded-lg py-3 px-4 transition duration-200 flex items-center justify-center">
-                    <span id="analyze-text">Analyze Image</span>
-                    <svg id="analyze-spinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <span id="analyze-text"></span>
+                    <svg id="analyze-spinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 </button>
             </form>
         </section>
-
-        <!-- Results Section -->
         <section id="results-section" class="hidden max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden p-6 mb-8">
-            <h2 id="results-title" class="text-xl font-semibold text-[--secondary-theme] mb-4">Analysis Results</h2>
+            <h2 id="results-title" class="text-xl font-semibold text-[--secondary-theme] mb-4"></h2>
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 id="disease-label" class="text-lg font-medium">Disease Detected:</h3>
-                    <span id="confidence" class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-full text-sm font-medium">95% Confidence</span>
+                    <h3 id="disease-label" class="text-lg font-medium"></h3>
+                    <div class="flex items-center space-x-2">
+                        <span id="model-accuracy" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"></span>
+                        <span id="confidence" class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"></span>
+                    </div>
                 </div>
-                <p id="disease-name" class="text-2xl font-bold text-[--primary-theme]">Black Rot</p>
-                <img id="analyzed-image" src="" alt="Analyzed grape leaf image" class="w-full rounded-lg border border-gray-200 dark:border-gray-600">
-                
+                <p id="disease-name" class="text-2xl font-bold text-[--primary-theme]"></p>
+                <div class="w-full max-w-xs mx-auto my-4"><canvas id="predictionChart"></canvas></div>
+                <img id="analyzed-image" src="" alt="Analyzed grape leaf image" class="w-full rounded-lg border">
                 <div class="mt-6">
-                    <h4 id="treatment-title" class="font-medium text-lg mb-2">Recommended Treatment</h4>
-                    <p id="treatment-tips" class="bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50 rounded-lg p-4">
-                        Remove infected leaves and apply fungicide early in the season. Improve air circulation around plants.
-                    </p>
-                </div>
-
-                <!-- NEW: ROC Curve and AUC Score Section -->
-                <div class="mt-8">
-                    <h4 id="performance-title" class="font-medium text-lg mb-2 text-[--secondary-theme]">Model Performance</h4>
-                    <p id="auc-score" class="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                        AUC Score: <span class="font-semibold" id="auc-score-value">0.92</span>
-                    </p>
-                    <img id="roc-curve" src="" alt="ROC Curve" class="w-full rounded-lg shadow-md border border-gray-200 dark:border-gray-600">
+                    <h4 id="treatment-title" class="font-medium text-lg mb-2"></h4>
+                    <p id="treatment-tips" class="bg-blue-50 text-blue-900 rounded-lg p-4"></p>
                 </div>
             </div>
         </section>
-
-        <!-- Disease Information Cards -->
         <section class="max-w-6xl mx-auto mb-12">
-            <h2 id="disease-info-title" class="text-2xl font-bold text-center text-[--secondary-theme] mb-8">Common Grape Diseases</h2>
+            <h2 id="disease-info-title" class="text-2xl font-bold text-center text-[--secondary-theme] mb-8"></h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Black Rot Card -->
-                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <div class="p-5">
-                        <h3 id="disease1-title" class="text-xl font-semibold mb-2">Black Rot</h3>
-                        <p id="disease1-desc" class="text-gray-600 dark:text-gray-300 mb-4">
-                            Fungal disease causing dark spots on leaves and fruit rot. Common in warm, humid conditions.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ESCA Card -->
-                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <div class="p-5">
-                        <h3 id="disease2-title" class="text-xl font-semibold mb-2">ESCA</h3>
-                        <p id="disease2-desc" class="text-gray-600 dark:text-gray-300 mb-4">
-                            Complex disease causing leaf discoloration and wood decay. No chemical cure available.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Healthy Card -->
-                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <div class="p-5">
-                        <h3 id="disease3-title" class="text-xl font-semibold mb-2">Healthy</h3>
-                        <p id="disease3-desc" class="text-gray-600 dark:text-gray-300 mb-4">
-                            Healthy grape leaves should be vibrant green without spots or discoloration.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Leaf Blight Card -->
-                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <div class="p-5">
-                        <h3 id="disease4-title" class="text-xl font-semibold mb-2">Leaf Blight</h3>
-                        <p id="disease4-desc" class="text-gray-600 dark:text-gray-300 mb-4">
-                            Bacterial disease causing irregular brown patches on leaves and reduced fruit quality.
-                        </p>
-                    </div>
-                </div>
+                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"><div class="p-5"><h3 id="disease1-title" class="text-xl font-semibold mb-2"></h3><p id="disease1-desc" class="text-gray-600 dark:text-gray-300 mb-4"></p></div></div>
+                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"><div class="p-5"><h3 id="disease2-title" class="text-xl font-semibold mb-2"></h3><p id="disease2-desc" class="text-gray-600 dark:text-gray-300 mb-4"></p></div></div>
+                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"><div class="p-5"><h3 id="disease3-title" class="text-xl font-semibold mb-2"></h3><p id="disease3-desc" class="text-gray-600 dark:text-gray-300 mb-4"></p></div></div>
+                <div class="disease-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"><div class="p-5"><h3 id="disease4-title" class="text-xl font-semibold mb-2"></h3><p id="disease4-desc" class="text-gray-600 dark:text-gray-300 mb-4"></p></div></div>
             </div>
         </section>
-
-        <!-- Chatbot Section -->
         <section class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
             <div class="p-6">
-                <h2 id="chat-title" class="text-xl font-semibold text-[--secondary-theme] mb-4">Ask GrapeCare Assistant</h2>
+                <h2 id="chat-title" class="text-xl font-semibold text-[--secondary-theme] mb-4"></h2>
                 <div id="chat-box" class="h-64 overflow-y-auto mb-4 space-y-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="flex justify-start">
-                        <div class="bg-[--primary-theme] text-white rounded-lg max-w-xs p-3">
-                            <p id="welcome-message">Hello! I'm your grape disease assistant. How can I help you today?</p>
-                        </div>
-                    </div>
+                    <div class="flex justify-start"><div class="bg-[--primary-theme] text-white rounded-lg max-w-xs p-3"><p id="welcome-message"></p></div></div>
                 </div>
                 <div class="flex space-x-2">
                     <input id="user-input" type="text" placeholder="Type your question..." class="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[--primary-theme] dark:bg-gray-700">
-                    <button id="send-btn" class="gradient-bg hover:opacity-90 text-white px-4 py-2 rounded-lg transition duration-200">
-                        Send
-                    </button>
+                    <button id="send-btn" class="gradient-bg hover:opacity-90 text-white px-4 py-2 rounded-lg transition duration-200">Send</button>
                 </div>
                 <div class="mt-3 grid grid-cols-2 gap-2">
-                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200" data-question="black rot">
-                        Black Rot
-                    </button>
-                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200" data-question="esca">
-                        ESCA
-                    </button>
-                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200" data-question="healthy">
-                        Healthy Grapes
-                    </button>
-                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200" data-question="treatment">
-                        Treatment Tips
-                    </button>
+                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200"></button>
+                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200"></button>
+                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200"></button>
+                    <button class="quick-question bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 rounded-lg px-3 py-1 text-sm transition duration-200"></button>
                 </div>
             </div>
         </section>
     </main>
-
     <footer class="gradient-bg text-white py-6 mt-12">
-        <div class="container mx-auto px-4 text-center">
-            <p id="footer-text" class="mb-2">© 2023 GrapeCare - Your Grape Disease Advisor</p>
+       <div class="container mx-auto px-4 text-center">
+            <p id="footer-text"></p>
             <p class="text-sm opacity-75">For educational purposes only | Consult an expert for serious plant health issues</p>
         </div>
     </footer>
 
     <script>
-        // Language Content
         const translations = {
-            en: {
-                mainTitle: "Grape Disease Detector",
-                subtitle: "Upload an image of grape leaves to detect diseases and get treatment recommendations",
-                uploadTitle: "Upload Grape Leaf Image",
-                uploadText: "Click to select an image",
-                analyzeBtn: "Analyze Image",
-                resultsTitle: "Analysis Results",
-                diseaseLabel: "Disease Detected:",
-                treatmentTitle: "Recommended Treatment",
-                performanceTitle: "Model Performance",
-                aucScore: "AUC Score",
-                diseaseInfoTitle: "Common Grape Diseases",
-                diseaseBlackRot: "Black Rot",
-                diseaseEsca: "ESCA",
-                diseaseHealthy: "Healthy",
-                diseaseBlight: "Leaf Blight",
-                chatTitle: "Ask GrapeCare Assistant",
-                welcomeMessage: "Hello! I'm your grape disease assistant. How can I help you today?",
-                footerText: "© 2025 GrapeCare - Your Grape Disease Advisor",
-                quickQuestions: ["Black Rot", "ESCA", "Healthy Grapes", "Treatment Tips"],
-                diseaseDescriptions: {
-                    blackRot: "Fungal disease causing dark spots on leaves and fruit rot. Common in warm, humid conditions.",
-                    esca: "Complex disease causing leaf discoloration and wood decay. No chemical cure available.",
-                    healthy: "Healthy grape leaves should be vibrant green without spots or discoloration.",
-                    blight: "Bacterial disease causing irregular brown patches on leaves and reduced fruit quality."
-                },
-                treatmentTips: {
-                    blackRot: "Remove infected leaves and apply fungicide early in the season. Improve air circulation around plants.",
-                    esca: "Prune infected vines and avoid water stress. No chemical cure available.",
-                    healthy: "Your grapevine appears healthy. Maintain proper nutrition and watering to keep it thriving.",
-                    blight: "Use protective sprays and remove affected leaves promptly. Avoid overhead watering."
-                }
-            },
-            kn: {
-                mainTitle: "ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆ ಪತ್ತೆಗಾರ",
-                subtitle: "ದ್ರಾಕ್ಷಿ ಎಲೆಗಳ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ ಕಾಯಿಲೆಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಿ ಚಿಕಿತ್ಸೆ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ",
-                uploadTitle: "ದ್ರಾಕ್ಷಿ ಎಲೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
-                uploadText: "ಚಿತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
-                analyzeBtn: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಿ",
-                resultsTitle: "ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶಗಳು",
-                diseaseLabel: "ಕಾಯಿಲೆ ಪತ್ತೆಯಾಗಿದೆ:",
-                treatmentTitle: "ಶಿಫಾರಸು ಮಾಡಿದ ಚಿಕಿತ್ಸೆ",
-                performanceTitle: "ಮಾದರಿ ಕಾರ್ಯಕ್ಷಮತೆ",
-                aucScore: "AUC ಸ್ಕೋರ್",
-                diseaseInfoTitle: "ಸಾಮಾನ್ಯ ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆಗಳು",
-                diseaseBlackRot: "ಕಪ್ಪು ಕೊಳೆ",
-                diseaseEsca: "ಎಸ್ಕಾ",
-                diseaseHealthy: "ಆರೋಗ್ಯಕರ",
-                diseaseBlight: "ಬ್ಲೈಟ್ ಎಲೆ",
-                chatTitle: "GrapeCare ಸಹಾಯಕನನ್ನು ಕೇಳಿ",
-                welcomeMessage: "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆ ಸಹಾಯಕ. ಇಂದು ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
-                footerText: "© 2025 ದ್ರಾಕ್ಷಿ ಆರೈಕೆ - ನಿಮ್ಮ ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆ ಸಲಹೆಗಾರ",
-                quickQuestions: ["ಕಪ್ಪು ಕೊಳೆ", "ಎಸ್ಕಾ", "ಆರೋಗ್ಯಕರ ದ್ರಾಕ್ಷಿ", "ಚಿಕಿತ್ಸೆ ಸಲಹೆಗಳು"],
-                diseaseDescriptions: {
-                    blackRot: "ಎಲೆಗಳು ಮತ್ತು ಹಣ್ಣು ಕೊಳೆತದ ಮೇಲೆ ಕಪ್ಪು ಕಲೆಗಳನ್ನು ಉಂಟುಮಾಡುವ ಫಂಗಲ್ ರೋಗ. ಬೆಚ್ಚಗಿನ, ಶೀತಲ ಪರಿಸ್ಥಿತಿಗಳಲ್ಲಿ ಸಾಮಾನ್ಯ.",
-                    esca: "ಎಲೆಗಳ ಬಣ್ಣ ಬದಲಾವಣೆ ಮತ್ತು ಮರದ ಕೊಳೆತವನ್ನು ಉಂಟುಮಾಡುವ ಸಂಕೀರ್ಣ ರೋಗ. ರಾಸಾಯನಿಕ ಚಿಕಿತ್ಸೆ ಲಭ್ಯವಿಲ್ಲ.",
-                    healthy: "ಆರೋಗ್ಯಕರ ದ್ರಾಕ್ಷಿ ಎಲೆಗಳು ಕಲೆಗಳು ಇಲ್ಲದೆ ಹರಿತ್ವಹರಿತವಾಗಿ ಹಸಿರಾಗಿರಬೇಕು.",
-                    blight: "ಎಲೆಗಳ ಮೇಲೆ ಅನಿಯಮಿತ ಕಂದು ಪ್ಯಾಚ್ಗಳು ಮತ್ತು ಹಣ್ಣಿನ ಗುಣಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡುವ ಬ್ಯಾಕ್ಟೀರಿಯಾದ ರೋಗ."
-                },
-                treatmentTips: {
-                    blackRot: "ಸೋಂಕು ಹರಡಿದ ಎಲೆಗಳನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಸೀಜನ್ ಆರಂಭದಲ್ಲಿ ಫಂಗಸೈಡ್ ಅನ್ನು ಅನ್ವಯಿಸಿ. ಸಸ್ಯಗಳ ಸುತ್ತಲೂ ವಾಯು ಸಂಚಾರವನ್ನು améliorate.",
-                    esca: "ಸೋಂಕು ಬಿದಿರುಗಳನ್ನು ಕತ್ತರಿಸಿ ಮತ್ತು ನೀರಿನ ಒತ್ತಡವನ್ನು ತಪ್ಪಿಸಿ. ರಾಸಾಯನಿಕ ಚಿಕಿತ್ಸೆ ಲಭ್ಯವಿಲ್ಲ.",
-                    healthy: "ನಿಮ್ಮ ದ್ರಾಕ್ಷಿ ಬಳ್ಳಿ ಆರೋಗ್ಯಕರವಾಗಿ ಕಾಣುತ್ತದೆ. ಅದನ್ನು ಉತ್ತಮವಾಗಿರಿಸಿಕೊಳ್ಳಲು ಸರಿಯಾದ ಪೋಷಣೆ ಮತ್ತು ನೀರನ್ನು ನೀಡಿ.",
-                    blight: "ರಕ್ಷಕ ಸಿಂಪಡಣೆಗಳನ್ನು ಬಳಸಿ ಮತ್ತು ಪರಿಣಾಮ ಬೀರಿದ ಎಲೆಗಳನ್ನು ತಕ್ಷಣ ತೆಗೆದುಹಾಕಿ. ಮೇಲಿನ ನೀರನ್ನು ತಪ್ಪಿಸಿ."
-                }
-            }
+            en: { mainTitle: "Grape Disease Detector", subtitle: "Upload an image of grape leaves to detect diseases and get treatment recommendations", uploadTitle: "Upload Grape Leaf Image", uploadText: "Click to select an image", analyzeBtn: "Analyze Image", resultsTitle: "Analysis Results", diseaseLabel: "Disease Detected:", treatmentTitle: "Recommended Treatment", diseaseInfoTitle: "Common Grape Diseases", diseaseBlackRot: "Black Rot", diseaseEsca: "ESCA", diseaseHealthy: "Healthy", diseaseBlight: "Leaf Blight", chatTitle: "Ask GrapeCare Assistant", welcomeMessage: "Hello! I'm your grape disease assistant. How can I help you today?", footerText: "© 2025 GrapeCare", quickQuestions: ["Black Rot", "ESCA", "Healthy Grapes", "Treatment Tips"], confidenceLabel: "Confidence:", modelAccuracyLabel: "Model Accuracy:", healthyLabel: "Healthy", diseaseDescriptions: { blackRot: "Fungal disease causing dark spots on leaves and fruit rot.", esca: "Complex disease causing leaf discoloration and wood decay.", healthy: "Healthy grape leaves should be vibrant green.", blight: "Bacterial disease causing irregular brown patches." } },
+            kn: { mainTitle: "ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆ ಪತ್ತೆಗಾರ", subtitle: "ದ್ರಾಕ್ಷಿ ಎಲೆಗಳ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಚಿಕಿತ್ಸೆ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ", uploadTitle: "ದ್ರಾಕ್ಷಿ ಎಲೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ", uploadText: "ಚಿತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ", analyzeBtn: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಿ", resultsTitle: "ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶಗಳು", diseaseLabel: "ಕಾಯಿಲೆ ಪತ್ತೆಯಾಗಿದೆ:", treatmentTitle: "ಶಿಫಾರಸು ಮಾಡಿದ ಚಿಕಿತ್ಸೆ", diseaseInfoTitle: "ಸಾಮಾನ್ಯ ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆಗಳು", diseaseBlackRot: "ಕಪ್ಪು ಕೊಳೆ", diseaseEsca: "ಎಸ್ಕಾ", diseaseHealthy: "ಆರೋಗ್ಯಕರ", diseaseBlight: "ಬ್ಲೈಟ್ ಎಲೆ", chatTitle: "GrapeCare ಸಹಾಯಕನನ್ನು ಕೇಳಿ", welcomeMessage: "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆ ಸಹಾಯಕ.", footerText: "© 2025 ದ್ರಾಕ್ಷಿ ಆರೈಕೆ", quickQuestions: ["ಕಪ್ಪು ಕೊಳೆ", "ಎಸ್ಕಾ", "ಆರೋಗ್ಯಕರ ದ್ರಾಕ್ಷಿ", "ಚಿಕಿತ್ಸೆ ಸಲಹೆಗಳು"], confidenceLabel: "ವಿಶ್ವಾಸ:", modelAccuracyLabel: "ಮಾದರಿ ನಿಖರತೆ:", healthyLabel: "ಆರೋಗ್ಯಕರ", diseaseDescriptions: { blackRot: "ಎಲೆಗಳು ಮತ್ತು ಹಣ್ಣು ಕೊಳೆತದ ಮೇಲೆ ಕಪ್ಪು ಕಲೆಗಳನ್ನು ಉಂಟುಮಾಡುವ ಫಂಗಲ್ ರೋಗ.", esca: "ಎಲೆಗಳ ಬಣ್ಣ ಬದಲಾವಣೆ ಮತ್ತು ಮರದ ಕೊಳೆತವನ್ನು ಉಂಟುಮಾಡುವ ಸಂಕೀರ್ಣ ರೋಗ.", healthy: "ಆರೋಗ್ಯಕರ ದ್ರಾಕ್ಷಿ ಎಲೆಗಳು ಕಲೆಗಳು ಇಲ್ಲದೆ ಹಸಿರಾಗಿರಬೇಕು.", blight: "ಎಲೆಗಳ ಮೇಲೆ ಅನಿಯಮಿತ ಕಂದು ಪ್ಯಾಚ್ಗಳು ಮತ್ತು ಹಣ್ಣಿನ ಗುಣಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡುವ ಬ್ಯಾಕ್ಟೀರಿಯಾದ ರೋಗ." } }
         };
 
-        // Theme and Language Setup
+        function updateLanguage(lang) {
+            const langData = translations[lang];
+            const setText = (id, key) => { const el = document.getElementById(id); if (el) el.textContent = langData[key]; };
+            setText('main-title', 'mainTitle'); setText('subtitle', 'subtitle'); setText('upload-title', 'uploadTitle'); setText('upload-text', 'uploadText'); setText('analyze-text', 'analyzeBtn'); setText('results-title', 'resultsTitle'); setText('disease-label', 'diseaseLabel'); setText('treatment-title', 'treatmentTitle'); setText('disease-info-title', 'diseaseInfoTitle'); setText('chat-title', 'chatTitle'); setText('footer-text', 'footerText'); setText('welcome-message', 'welcomeMessage');
+            setText('disease1-title', 'diseaseBlackRot'); setText('disease2-title', 'diseaseEsca'); setText('disease3-title', 'diseaseHealthy'); setText('disease4-title', 'diseaseBlight');
+            document.getElementById('disease1-desc').textContent = langData.diseaseDescriptions.blackRot; document.getElementById('disease2-desc').textContent = langData.diseaseDescriptions.esca; document.getElementById('disease3-desc').textContent = langData.diseaseDescriptions.healthy; document.getElementById('disease4-desc').textContent = langData.diseaseDescriptions.blight;
+            const quickQuestions = document.querySelectorAll('.quick-question');
+            quickQuestions.forEach((button, index) => { button.textContent = langData.quickQuestions[index]; });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Dark Mode Toggle
             const darkToggle = document.getElementById('dark-toggle');
-            darkToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-            });
-
-            // Check for saved dark mode preference
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
-            }
-
-            // Theme Selector
+            darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); localStorage.setItem('darkMode', document.body.classList.contains('dark-mode')); });
+            if (localStorage.getItem('darkMode') === 'true') { document.body.classList.add('dark-mode'); }
             document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.body.classList.remove('theme-purple', 'theme-green', 'theme-blue');
-                    document.body.classList.add(this.id.replace('theme-', ''));
-                    localStorage.setItem('selectedTheme', this.id.replace('theme-', ''));
-                });
+                btn.addEventListener('click', function() { document.body.className = document.body.className.replace(/theme-\w+/, `theme-${this.id.replace('theme-', '')}`); localStorage.setItem('selectedTheme', this.id.replace('theme-', '')); });
             });
-
-            // Set saved theme
             const savedTheme = localStorage.getItem('selectedTheme') || 'purple';
             document.body.classList.add(`theme-${savedTheme}`);
-
-            // Language Selector
             document.querySelectorAll('.lang-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    document.querySelectorAll('.lang-option').forEach(opt => {
-                        opt.classList.remove('bg-white', 'text-[--primary-theme]');
-                        opt.classList.add('bg-transparent', 'text-white');
-                    });
+                    document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('bg-white', 'text-[--primary-theme]'));
                     this.classList.add('bg-white', 'text-[--primary-theme]');
-                    this.classList.remove('bg-transparent');
-                    
                     const lang = this.id.replace('lang-', '');
                     localStorage.setItem('selectedLanguage', lang);
                     updateLanguage(lang);
                 });
             });
 
-            // Set saved language
-            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-            document.getElementById(`lang-${savedLanguage}`).click();
-
-            // Image Preview
             document.getElementById('image-upload').addEventListener('change', function(e) {
                 const reader = new FileReader();
-                reader.onload = function() {
-                    const output = document.getElementById('imagePreview');
-                    output.src = reader.result;
-                    output.classList.remove('hidden');
-                };
+                reader.onload = function() { const output = document.getElementById('imagePreview'); output.src = reader.result; output.classList.remove('hidden'); };
                 reader.readAsDataURL(e.target.files[0]);
             });
 
-            // Chatbot functionality
             const chatBox = document.getElementById('chat-box');
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
-
             function addChatMessage(message, isUser = false) {
-                const bubbleClass = isUser ? 
-                    'bg-[--secondary-theme] text-white rounded-lg rounded-br-none' : 
-                    'bg-[--primary-theme] text-white rounded-lg rounded-bl-none';
+                const bubbleClass = isUser ? 'bg-[--secondary-theme] text-white rounded-lg rounded-br-none' : 'bg-[--primary-theme] text-white rounded-lg rounded-bl-none';
                 const alignClass = isUser ? 'justify-end' : 'justify-start';
-                
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `flex ${alignClass}`;
-                messageDiv.innerHTML = `
-                    <div class="${bubbleClass} max-w-xs p-3">
-                        <p>${message}</p>
-                    </div>
-                `;
+                messageDiv.className = `flex ${alignClass} mb-2`;
+                const p = document.createElement('p');
+                p.className = `${bubbleClass} max-w-xs p-3 break-words`;
+                p.innerHTML = message;
+                messageDiv.appendChild(p);
                 chatBox.appendChild(messageDiv);
                 chatBox.scrollTop = chatBox.scrollHeight;
+                return p;
             }
-
-            function getBotResponse(message, lang) {
-                message = message.toLowerCase();
-                const langData = translations[lang];
-                
-                if (message.includes('black rot') || message.includes('ಕಪ್ಪು ಕೊಳೆ')) {
-                    return `${langData.diseaseBlackRot}: ${langData.treatmentTips.blackRot}`;
-                } else if (message.includes('esca') || message.includes('ಎಸ್ಕಾ')) {
-                    return `${langData.diseaseEsca}: ${langData.treatmentTips.esca}`;
-                } else if (message.includes('healthy') || message.includes('ಆರೋಗ್ಯಕರ')) {
-                    return `${langData.diseaseHealthy}: ${langData.treatmentTips.healthy}`;
-                } else if (message.includes('treatment') || message.includes('ಚಿಕಿತ್ಸೆ')) {
-                    return Object.entries(langData.treatmentTips).map(([key, value]) => 
-                        `<strong>${langData[`disease${key.charAt(0).toUpperCase() + key.slice(1)}`]}</strong>: ${value}`
-                    ).join('<br><br>');
-                } else if (message.includes('hello') || message.includes('hi') || message.includes('ನಮಸ್ಕಾರ')) {
-                    return lang === 'en' ? "Hello! How can I help with your grape plants today?" : "ನಮಸ್ಕಾರ! ಇಂದು ನಿಮ್ಮ ದ್ರಾಕ್ಷಿ ಸಸ್ಯಗಳ ಬಗ್ಗೆ ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?";
-                } else {
-                    return lang === 'en' ? "I'm not sure about that. Try asking about grape diseases, treatments, or nutrition." : "ನನಗೆ ಅದರ ಬಗ್ಗೆ ಖಚಿತವಾಗಿ ತಿಳಿದಿಲ್ಲ. ದ್ರಾಕ್ಷಿ ಕಾಯಿಲೆಗಳು, ಚಿಕಿತ್ಸೆಗಳು ಅಥವಾ ಪೋಷಣೆಯ ಬಗ್ಗೆ ಕೇಳಿ.";
-                }
-            }
-
-            sendBtn.addEventListener('click', function() {
+            async function sendMessage() {
                 const message = userInput.value.trim();
-                if (message !== '') {
-                    addChatMessage(message, true);
-                    const lang = localStorage.getItem('selectedLanguage') || 'en';
-                    setTimeout(() => {
-                        addChatMessage(getBotResponse(message, lang));
-                    }, 500);
-                    userInput.value = '';
+                if (message === '') return;
+                addChatMessage(message, true);
+                userInput.value = '';
+                sendBtn.disabled = true;
+                const thinkingBubble = addChatMessage('Thinking...', false);
+                try {
+                    const formData = new FormData();
+                    formData.append('message', message);
+                    formData.append('language', localStorage.getItem('selectedLanguage') || 'en');
+                    const response = await fetch('/chat', { method: 'POST', body: formData });
+                    if (!response.ok) { throw new Error('Network response was not ok'); }
+                    const data = await response.json();
+                    thinkingBubble.innerHTML = data.response;
+                } catch (error) {
+                    console.error('Error:', error);
+                    thinkingBubble.innerHTML = "Sorry, something went wrong. Please try again.";
+                } finally {
+                    sendBtn.disabled = false;
+                    userInput.focus();
                 }
-            });
-
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendBtn.click();
-                }
-            });
-
-            // Quick question buttons
+            }
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { sendMessage(); } });
             document.querySelectorAll('.quick-question').forEach(button => {
-                button.addEventListener('click', function() {
-                    const question = this.getAttribute('data-question');
-                    userInput.value = question;
-                    sendBtn.click();
-                });
+                button.addEventListener('click', function() { userInput.value = this.textContent.trim(); sendMessage(); });
             });
 
-            // Image Analysis
             document.getElementById('upload-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
+                const lang = localStorage.getItem('selectedLanguage') || 'en';
                 const fileInput = document.getElementById('image-upload');
-                if (!fileInput.files.length) {
-                    alert(translations[localStorage.getItem('selectedLanguage') || 'en'].uploadText);
-                    return;
-                }
-
+                if (!fileInput.files.length) { alert(translations[lang].uploadText); return; }
                 const analyzeBtn = document.getElementById('analyze-btn');
                 const analyzeText = document.getElementById('analyze-text');
                 const spinner = document.getElementById('analyze-spinner');
-
-                analyzeText.textContent = translations[localStorage.getItem('selectedLanguage') || 'en'].analyzeBtn + '...';
+                analyzeText.textContent = translations[lang].analyzeBtn + '...';
                 spinner.classList.remove('hidden');
                 analyzeBtn.disabled = true;
-
                 try {
                     const formData = new FormData();
                     formData.append('image', fileInput.files[0]);
-                    
-                    const response = await fetch('/predict', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
+                    formData.append('language', lang);
+                    const response = await fetch('/predict', { method: 'POST', body: formData });
                     if (!response.ok) throw new Error('Analysis failed');
-                    
                     const result = await response.json();
                     
-                    // Update UI with results
                     document.getElementById('disease-name').textContent = result.prediction;
-                    document.getElementById('confidence').textContent = `${result.confidence}% Confidence`;
+                    document.getElementById('confidence').textContent = `${translations[lang].confidenceLabel} ${result.confidence}%`;
+                    document.getElementById('model-accuracy').textContent = `${translations[lang].modelAccuracyLabel} ${result.model_accuracy}%`;
                     document.getElementById('treatment-tips').textContent = result.treatment;
                     document.getElementById('analyzed-image').src = result.image_url;
+
+                    const ctx = document.getElementById('predictionChart').getContext('2d');
+                    if (window.myPredictionChart) { window.myPredictionChart.destroy(); }
                     
-                    // NEW: Update AUC and ROC curve
-                    document.getElementById('auc-score-value').textContent = result.auc_score;
-                    document.getElementById('roc-curve').src = result.roc_curve_url;
+                    let chartData, chartLabels, chartColors, chartTitle = translations[lang].resultsTitle;
+                    const topPredictionIndex = result.all_predictions.probabilities.indexOf(Math.max(...result.all_predictions.probabilities));
+                    const englishPrediction = result.all_predictions.labels[topPredictionIndex];
+
+                    if (englishPrediction.toLowerCase() === 'healthy') {
+                        chartLabels = [result.prediction];
+                        chartData = [100];
+                        chartColors = ['rgba(144, 238, 144, 0.8)'];
+                    } else {
+                        const diseasePercentage = result.confidence;
+                        const healthyPercentage = 100 - diseasePercentage;
+                        chartLabels = [result.prediction, translations[lang].healthyLabel];
+                        chartData = [diseasePercentage, healthyPercentage];
+                        chartColors = ['rgba(0, 0, 0, 0.7)', 'rgba(144, 238, 144, 0.8)'];
+                    }
                     
+                    window.myPredictionChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: chartLabels,
+                            datasets: [{ label: 'Health Status (%)', data: chartData, backgroundColor: chartColors, borderColor: '#fff', borderWidth: 2 }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top', labels: { font: { size: 14 } } },
+                                title: { display: true, text: chartTitle, font: { size: 16 } }
+                            }
+                        }
+                    });
+
                     document.getElementById('results-section').classList.remove('hidden');
                     document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
-                    
                 } catch (error) {
                     console.error('Error:', error);
                     alert('Error analyzing image. Please try again.');
                 } finally {
-                    analyzeText.textContent = translations[localStorage.getItem('selectedLanguage') || 'en'].analyzeBtn;
+                    analyzeText.textContent = translations[lang].analyzeBtn;
                     spinner.classList.add('hidden');
                     analyzeBtn.disabled = false;
                 }
             });
-        });
 
-        // Update all text content based on selected language
-        function updateLanguage(lang) {
-            const langData = translations[lang];
-            
-            // Update main elements
-            document.getElementById('main-title').textContent = langData.mainTitle;
-            document.getElementById('subtitle').textContent = langData.subtitle;
-            document.getElementById('upload-title').textContent = langData.uploadTitle;
-            document.getElementById('upload-text').textContent = langData.uploadText;
-            document.getElementById('analyze-text').textContent = langData.analyzeBtn;
-            document.getElementById('results-title').textContent = langData.resultsTitle;
-            document.getElementById('disease-label').textContent = langData.diseaseLabel;
-            document.getElementById('treatment-title').textContent = langData.treatmentTitle;
-            document.getElementById('performance-title').textContent = langData.performanceTitle;
-            document.getElementById('auc-score').innerHTML = `${langData.aucScore}: <span class="font-semibold" id="auc-score-value">0.92</span>`;
-            document.getElementById('disease-info-title').textContent = langData.diseaseInfoTitle;
-            document.getElementById('chat-title').textContent = langData.chatTitle;
-            document.getElementById('footer-text').textContent = langData.footerText;
-            
-            // Update quick questions
-            const quickQuestions = document.querySelectorAll('.quick-question');
-            quickQuestions.forEach((button, index) => {
-                button.textContent = langData.quickQuestions[index];
-            });
-            
-            // Update disease cards
-            document.getElementById('disease1-title').textContent = langData.diseaseBlackRot;
-            document.getElementById('disease2-title').textContent = langData.diseaseEsca;
-            document.getElementById('disease3-title').textContent = langData.diseaseHealthy;
-            document.getElementById('disease4-title').textContent = langData.diseaseBlight;
-            
-            document.getElementById('disease1-desc').textContent = langData.diseaseDescriptions.blackRot;
-            document.getElementById('disease2-desc').textContent = langData.diseaseDescriptions.esca;
-            document.getElementById('disease3-desc').textContent = langData.diseaseDescriptions.healthy;
-            document.getElementById('disease4-desc').textContent = langData.diseaseDescriptions.blight;
-            
-            // Update welcome message in chat
-            document.getElementById('welcome-message').textContent = langData.welcomeMessage;
-        }
+            // Set initial language on page load
+            const initialLang = localStorage.getItem('selectedLanguage') || 'en';
+            if(document.getElementById(`lang-${initialLang}`)) {
+                document.getElementById(`lang-${initialLang}`).click();
+            } else {
+                updateLanguage('en');
+            }
+        });
     </script>
 </body>
 </html>

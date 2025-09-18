@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: grape-disease-app
-    env: python
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: gunicorn app:app
-    pythonVersion: 3.11
-[tool.poetry.dependencies]
-python = "^3.11"
