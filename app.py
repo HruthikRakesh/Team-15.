@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-# --- REMOVED --- import tensorflow as tf
-import tflite_runtime.interpreter as tflite # --- ADDED --- New library for the small model
+import tensorflow as tf # --- CHANGED BACK to the original tensorflow
 import numpy as np
 import os
 from PIL import Image
@@ -16,16 +15,8 @@ try:
 except AttributeError:
     print("Please provide your Gemini API key.")
 
-
-# --- SECTION CHANGED --- Load the efficient TFLite model
-TFLITE_MODEL_PATH = 'model/grape_model_quantized.tflite'
-interpreter = tflite.Interpreter(model_path=TFLITE_MODEL_PATH)
-interpreter.allocate_tensors()
-# Get input and output tensor details.
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
-# --- END OF SECTION ---
-
+# --- CHANGED BACK --- Load the original .keras model
+model = tf.keras.models.load_model('model/best_model.keras')
 
 # Disease information
 disease_classes = ["Black Rot", "ESCA", "Healthy", "Leaf Blight"]
@@ -61,15 +52,11 @@ def predict():
 
         img = Image.open(image_path).convert('RGB')
         img = img.resize((224, 224))
-        # --- CHANGED --- Ensure the data type is float32 for the TFLite model
-        img_array = np.array(img, dtype=np.float32) / 255.0
+        img_array = np.array(img) / 255.0
         img_array = np.expand_dims(img_array, axis=0)
 
-        # --- SECTION CHANGED --- Prediction logic for TFLite model
-        interpreter.set_tensor(input_details[0]['index'], img_array)
-        interpreter.invoke()
-        prediction = interpreter.get_tensor(output_details[0]['index'])[0]
-        # --- END OF SECTION ---
+        # --- CHANGED BACK --- Use the original model.predict function
+        prediction = model.predict(img_array)[0]
 
         predicted_index = np.argmax(prediction)
         confidence = float(np.max(prediction)) * 100
@@ -92,7 +79,7 @@ def predict():
             'model_accuracy': 97.22,
             'all_predictions': {
                 'labels': disease_classes,
-                'kannada_labels': disease_classes_kn, # Sending Kannada labels as well
+                'kannada_labels': disease_classes_kn,
                 'probabilities': prediction.tolist()
             }
         })
@@ -110,7 +97,7 @@ def chat():
             return jsonify({'response': "Please ask a question."})
 
         gemini_model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        
+
         language_instruction = "Your response must be entirely in English."
         if lang == 'kn':
             language_instruction = "Your response must be entirely in clear, natural-sounding Kannada (ಕನ್ನಡ)."
@@ -126,7 +113,7 @@ def chat():
         """
 
         api_response = gemini_model.generate_content(prompt)
-        
+
         return jsonify({'response': api_response.text})
 
     except Exception as e:
