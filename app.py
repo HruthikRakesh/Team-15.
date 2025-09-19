@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-import tensorflow as tf
+# --- REMOVED --- import tensorflow as tf
+import tflite_runtime.interpreter as tflite # --- ADDED --- New library for the small model
 import numpy as np
 import os
 from PIL import Image
@@ -11,13 +12,20 @@ app.config['UPLOAD_FOLDER'] = 'static'
 
 # Configure the Gemini API with your key
 try:
-    # IMPORTANT: Remember to use your new, secret API key here
     genai.configure(api_key="AIzaSyAddyA__5xzj7aKPtSUlIDGqLtzNE4dGt4")
 except AttributeError:
     print("Please provide your Gemini API key.")
 
-# Load the prediction model once when the app starts
-model = tf.keras.models.load_model('model/best_model.keras')
+
+# --- SECTION CHANGED --- Load the efficient TFLite model
+TFLITE_MODEL_PATH = 'model/grape_model_quantized.tflite'
+interpreter = tflite.Interpreter(model_path=TFLITE_MODEL_PATH)
+interpreter.allocate_tensors()
+# Get input and output tensor details.
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+# --- END OF SECTION ---
+
 
 # Disease information
 disease_classes = ["Black Rot", "ESCA", "Healthy", "Leaf Blight"]
@@ -53,10 +61,16 @@ def predict():
 
         img = Image.open(image_path).convert('RGB')
         img = img.resize((224, 224))
-        img_array = np.array(img) / 255.0
+        # --- CHANGED --- Ensure the data type is float32 for the TFLite model
+        img_array = np.array(img, dtype=np.float32) / 255.0
         img_array = np.expand_dims(img_array, axis=0)
 
-        prediction = model.predict(img_array)[0]
+        # --- SECTION CHANGED --- Prediction logic for TFLite model
+        interpreter.set_tensor(input_details[0]['index'], img_array)
+        interpreter.invoke()
+        prediction = interpreter.get_tensor(output_details[0]['index'])[0]
+        # --- END OF SECTION ---
+
         predicted_index = np.argmax(prediction)
         confidence = float(np.max(prediction)) * 100
         predicted_label_en = disease_classes[predicted_index]
@@ -97,7 +111,6 @@ def chat():
 
         gemini_model = genai.GenerativeModel('gemini-1.5-flash-latest')
         
-        # IMPROVED prompt for better language handling
         language_instruction = "Your response must be entirely in English."
         if lang == 'kn':
             language_instruction = "Your response must be entirely in clear, natural-sounding Kannada (ಕನ್ನಡ)."
