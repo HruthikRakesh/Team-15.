@@ -1,1 +1,1 @@
-Flaskgunicornnumpy<2.0Pillowopencv-pythontflite-runtimegoogle-generativeai
+Flaskgunicornnumpy<2.0Pillowopencv-pythontensorflow-cpu==2.16.1google-generativeai
