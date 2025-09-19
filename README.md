@@ -57,13 +57,22 @@ python app.py
 Now, just open your web browser and go to http://127.0.0.1:5000.
 
 ☁️ Free Cloud Deployment
+
 This app is ready to be deployed for free on Render.
+
 Push your final code to a GitHub repository.
+
 On Render, create a new "Web Service" and connect it to your repository.
+
 Use these settings during setup:
+
 Build Command: sh build.sh
+
 Start Command: gunicorn app:app
+
 👨‍💻 About the Developer
+
 Gagan Gowda BG
-LinkedIn
-GitHub
+LinkedIn - https://www.linkedin.com/in/gagan-gowda-b-g-1b63a22b4/
+
+GitHub - https://github.com/gaganngowdaa08
