@@ -1,1 +1,1 @@
-FlaskgunicornnumpyPillowopencv-pythontflite-runtime
+FlaskgunicornnumpyPillowopencv-pythontflite-runtimegoogle-generativeai
