@@ -71,7 +71,7 @@ Build Command: sh build.sh
 Start Command: gunicorn app:app
 
 Snapshots :
-![screenshots](WhatsApp Image 2026-01-22 at 8.26.42 PM (1).jpeg)
+![images](https://github.com/HruthikRakesh/Team-15./blob/main/WhatsApp%20Image%202026-01-22%20at%208.26.42%20PM%20(1).jpeg)
 
 
 👨‍💻 About the Developer
