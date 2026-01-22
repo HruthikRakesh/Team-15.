@@ -72,7 +72,5 @@ Start Command: gunicorn app:app
 
 👨‍💻 About the Developer
 
-Gagan Gowda BG
-LinkedIn - https://www.linkedin.com/in/gagan-gowda-b-g-1b63a22b4/
+Hruthik Naidu R
 
-GitHub - https://github.com/gaganngowdaa08

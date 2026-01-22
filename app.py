@@ -12,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = 'static'
 # Configure the Gemini API with your key
 try:
     # IMPORTANT: Remember to use your new, secret API key here
-    genai.configure(api_key="AIzaSyAddyA__5xzj7aKPtSUlIDGqLtzNE4dGt4")
+    genai.configure(api_key="AIzaSyCQd-bwBGJPFpmP15KYDx3rjaMMDclmJio")
 except AttributeError:
     print("Please provide your Gemini API key.")
 
