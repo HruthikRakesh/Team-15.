@@ -73,6 +73,7 @@ Start Command: gunicorn app:app
 Snapshots :
 ![images](https://github.com/HruthikRakesh/Team-15./blob/main/(1).jpeg)
 ![images](https://github.com/HruthikRakesh/Team-15./blob/main/.jpeg)
+[![demo](https://github.com/HruthikRakesh/Team-15./blob/main/2026-01-22%20at%208.54.28%20PM.mp4)
 
 
 👨‍💻 About the Developer
