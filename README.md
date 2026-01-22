@@ -70,7 +70,13 @@ Build Command: sh build.sh
 
 Start Command: gunicorn app:app
 
+Snapshots :
+
+
 👨‍💻 About the Developer
 
 Hruthik Naidu R
+Mothish C
+Mohith EC
+
 
