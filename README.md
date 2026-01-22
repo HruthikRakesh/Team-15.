@@ -72,7 +72,7 @@ Start Command: gunicorn app:app
 
 Snapshots :
 ![images](https://github.com/HruthikRakesh/Team-15./blob/main/WhatsApp%20Image%202026-01-22%20at%208.26.42%20PM%20(1).jpeg)
-
+![images](https://github.com/HruthikRakesh/Team-15./blob/main/WhatsApp%20Image%202026-01-22%20at%208.26.42%20PM.jpeg)
 
 👨‍💻 About the Developer
 
